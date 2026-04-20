@@ -1,134 +1,99 @@
+let cart = [];
 
-let produits = [
-    {
-        titre: "Huile 500ml",
-        prix: 120,
-        image: "image/télécharger (1).png",
-        description: "Huile pure"
-    },
-    {
-        titre: "Huile Bio 1L",
-        prix: 130,
-        image: "image/1l.png",
-        description: "Huile naturelle"
-    },
-     {
-        titre: "Huile  Premium 750ml",
-        prix: 100,
-        image: "image/750l.png",
-        description: "Huile riche "
-    },
-     {
-        titre: "Huile Traditionnelle 5L",
-        prix: 550,
-        image: "image/5l.png",
-        description: "Huile authentique "
-    },
-];
+function openCart() {
+    document.getElementById("cartSidebar").classList.add("active");
+    displayCart();
+}
 
+function closeCart() {
+    document.getElementById("cartSidebar").classList.remove("active");
+}
 
-const productContainer = document.querySelector(".product-container");
+document.querySelectorAll(".add-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
 
-const form = document.getElementById("product-form");
-const showFormBtn = document.getElementById("show-form-btn");
+        const card = btn.closest(".card");
+        const name = card.querySelector("h3").textContent;
+        const priceText = card.querySelector(".price").textContent;
+        const price = parseInt(priceText);
 
-const list = document.getElementById("panier-list");
-const totalText = document.getElementById("total");
+        cart.push({ name, price });
 
-let total = 0;
+        displayCart();
+    });
+});
 
+function displayCart() {
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
 
+    cartItems.innerHTML = "";
+    let total = 0;
 
-function afficherProduits() {
+    cart.forEach((item, index) => {
+        total += item.price;
 
-    if (!productContainer) return;
-
-    productContainer.innerHTML = "";
-
-    produits.forEach((produit, index) => {
-
-        const card = document.createElement("div");
-        card.classList.add("card", "product-card");
-
-        card.innerHTML = `
-            <img src="${produit.image}" alt="produit">
-            <h3>${produit.titre}</h3>
-            <p class="price">${produit.prix} DH</p>
-            <p>${produit.description}</p>
-
-            <button class="add-btn">Ajouter au panier</button>
-            
-            <button class="delete-btn">Supprimer</button>
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <p>${item.name} - ${item.price} DH 
+            <button onclick="removeItem(${index})">❌</button></p>
         `;
-
-        const addBtn = card.querySelector(".add-btn");
-        addBtn.addEventListener("click", () => {
-
-            if (!list || !totalText) return;
-
-            const li = document.createElement("li");
-            li.innerText = `${produit.titre} - ${produit.prix} DH`;
-            list.appendChild(li);
-
-            total += produit.prix;
-            totalText.innerText = "Total: " + total + " DH";
-        });
-
-        // 🔴 DELETE PRODUIT
-        const deleteBtn = card.querySelector(".delete-btn");
-        deleteBtn.addEventListener("click", () => {
-            supprimerProduit(index);
-        });
-
-        productContainer.appendChild(card);
+        cartItems.appendChild(div);
     });
+
+    cartTotal.textContent = total + " DH";
 }
 
-
-
-function supprimerProduit(index) {
-    produits.splice(index, 1);
-    afficherProduits();
+function removeItem(index) {
+    cart.splice(index, 1);
+    displayCart();
+}
+function openModal() {
+    document.getElementById("modalOverlay").classList.add("active");
 }
 
+function closeModal() {
+    document.getElementById("modalOverlay").classList.remove("active");
+}
 
+function addProduct() {
+    const name = document.getElementById("pName").value;
+    const price = document.getElementById("pPrice").value;
+    const image = document.getElementById("pImage").value;
+    const desc = document.getElementById("pDesc").value;
 
-if (showFormBtn) {
-    showFormBtn.addEventListener("click", () => {
-        form.style.display = "block";
+    const container = document.querySelector(".cards-container");
+
+    const card = document.createElement("div");
+    card.classList.add("card", "product-card");
+
+    card.innerHTML = `
+        <img src="${image}" alt="produit">
+        <h3>${name}</h3>
+        <p class="price">${price} DH</p>
+        <p>${desc}</p>
+        <button class="add-btn">Ajouter au panier</button>
+        <button class="delete-btn">Supprimer</button>
+    `;
+
+    container.appendChild(card);
+
+    card.querySelector(".delete-btn").addEventListener("click", () => {
+        card.remove();
     });
-}
 
-
-if (form) {
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const title = document.getElementById("title").value;
-        const image = document.getElementById("image").value;
-        const description = document.getElementById("description").value;
-        const price = parseFloat(document.getElementById("price").value);
-
-        // 🟡 validation بسيطة
-        if (!title || !image || !description || price <= 0) {
-            alert("Remplir les champs correctement !");
-            return;
-        }
-
-        // 🟢 ajouter ف array
-        produits.push({
-            titre: title,
-            prix: price,
-            image: image,
-            description: description
-        });
-
-        afficherProduits();
-
-        form.reset();
-        form.style.display = "none";
+    // 🛒 add to cart
+    card.querySelector(".add-btn").addEventListener("click", () => {
+        const priceNum = parseInt(price);
+        cart.push({ name, price: priceNum });
+        displayCart();
     });
+
+    closeModal();
 }
-
-
-afficherProduits();
+document.querySelectorAll(".delete-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const card = btn.closest(".card");
+        card.remove();
+    });
+});

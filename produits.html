@@ -9,22 +9,121 @@
 
 <body>
 
-<h2>Nos Produits</h2>
 
-<button id="show-form-btn">Ajouter un produit</button>
+    <header class="navbar">
+        <div class="logo">
+        <img src="image/télécharger.png"alt="logo">
+        <h1>Zayfbs</h1>
+        </div>
+        <nav class="menu">
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produit</a>
+        <a href="contact.html">Contact</a>
 
-<form id="product-form" style="display: none; margin: 20px 0;">
-    <input type="text" id="title" placeholder="Titre" required>
-    <input type="text" id="image" placeholder="URL Image" required>
-    <input type="text" id="description" placeholder="Description" required>
-    <input type="number" id="price" placeholder="Prix" required>
+      <div class="panier" id="panier">
+    <ul id="panier-list"></ul>
+     
+     <button onclick="openCart()"><img src="image/PANNIER.png"alt="pannier"></button>
     
-    <button type="submit">Ajouter</button>
-</form>
+</div>
+       
+        </nav>
+    </header>
+    <h1>Nos Produits</h1>
+<button class="add-btn" onclick="openModal()">Ajouter produit</button>    
 
-<div class="product-container"></div>
+<section class="product-container">
+  <div class="cards-container">
 
-<script src="script.js"></script>
+    <div class="card product-card">
+        <img src="image/télécharger (1).png" alt="produit">
+    <h3>Huile d’Olive Extra Vierge 500ml</h3>
+    <p class="price">120 DH</p>
+    <p>Huile pure, extra vierge.</p>
+
+    <button class="add-btn">Ajouter au panier</button>
+  <button class="delete-btn">Supprimer</button>
+</div>
+<div class="card product-card">
+    <img src="image/1l.png" alt="produit">
+    <h3>Huile d’Olive Bio 1L</h3>
+    <p class="price">130 DH</p>
+    <p>Huile naturelle 100% bio.</p>
+
+   <button class="add-btn">Ajouter au panier</button>
+  <button class="delete-btn">Supprimer</button>
+</div>
+<div class="card product-card">
+    <img src="image/750l.png" alt="produit">
+    <h3>Huile d’Olive  750ml</h3>
+    <p class="price">100 DH</p>
+    <p>Huile au goût riche </p>
+<button class="add-btn">Ajouter au panier</button>
+<button class="delete-btn">Supprimer</button>
+</div>
+<div class="card product-card">
+    <img src="image/5l.png" alt="produit">
+    <h3>Huile d’Olive  5L</h3>
+    <p class="price">550 DH</p>
+    <p> produite traditionnellement.</p>
+<button class="add-btn">Ajouter au panier</button>
+<button class="delete-btn">Supprimer</button>
+</div>
+</div>
+</section>
+<div class="cart-sidebar" id="cartSidebar">
+  <h3>🛒 Mon Panier</h3>
+
+  <div id="cartItems"></div>
+
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">0 DH</span>
+    </div>
+
+    <button class="btn-checkout">Commander</button>
+    <button onclick="closeCart()">Fermer</button>
+  </div>
+</div>
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Nouveau Produit</h3>
+
+    <input type="text" id="pName" placeholder="Nom du produit">
+    <input type="number" id="pPrice" placeholder="Prix">
+    <input type="text" id="pImage" placeholder="Image URL">
+    <textarea id="pDesc" placeholder="Description"></textarea>
+
+    <div class="modal-buttons">
+      <button onclick="addProduct()">Ajouter</button>
+      <button onclick="closeModal()">Annuler</button>
+    </div>
+  </div>
+</div>
+<footer class="footer" id="contact">
+    <div class="footer-top">
+
+        <div class="footer-left">
+            <h3>Région</h3>
+            <p>Fquih Ben Salah</p>
+            <p>Béni Mellal-Khénifra</p>
+            <p>Maroc</p>
+        </div>
+
+        <div class="footer-center">
+            <h3>Contact</h3>
+            <p>Phone : +212 601760012</p>
+            <p>Email : Zayfbs@gmail.com</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 ZayFBS _Tous droits réservés.</p>
+    </div>
+</footer>
+<script src="app.js"></script>
 
 </body>
 </html>
